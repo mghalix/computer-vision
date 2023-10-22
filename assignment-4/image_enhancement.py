@@ -4,9 +4,7 @@ from utils import ImageType, images, Utils as uti
 
 
 class ImageEnhancement:
-    def __init__(
-        self, img_path: str, open_type: ImageType = ImageType.GRAYSCALE
-    ) -> None:
+    def __init__(self, img_path: str, open_type=ImageType.GRAYSCALE) -> None:
         self.img_path = img_path
         self.open_type = open_type
         self.image = cv2.imread(img_path, open_type.value)
@@ -52,12 +50,29 @@ class ImageEnhancement:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    def stretch_contrast(self):
-        # r1 > s1 & r2 < s2
-        r1 = 50
-        r2 = 200
-        s1 = 30
-        s2 = 240
+    def _get_r_s(self, percent: int, type: str) -> tuple:
+        if type not in ["stretch", "contract"]:
+            raise TypeError('Contrast manipulation type must be "stretch" or "contract')
+
+        r1 = self.matrix.min()
+        r2 = self.matrix.max()
+
+        if type == "stretch":
+            s1 = r1 - (r1 * percent / 100 % (self.get_levels()))
+            s2 = r2 - (r2 * percent / 100 % (self.get_levels()))
+        else:
+            s1 = r1 + (r1 * percent / 100 % (self.get_levels()))
+            s2 = r2 + (r2 * percent / 100) % (self.get_levels())
+
+        r2 = max(0.2, r2)
+        r1 = max(0.1, r1)
+        s1 = max(0.1, s1)
+        s2 = max(0.1, s2)
+        return (r1, r2, s1, s2)
+
+    # r1 > s1 & r2 < s2
+    def stretch_contrast(self, percent: int) -> None:
+        r1, r2, s1, s2 = self._get_r_s(percent, "stretch")
 
         for row in range(len(self.matrix)):
             for col in range(len(self.matrix[0])):
@@ -78,12 +93,9 @@ class ImageEnhancement:
 
         self.filters.append("contrast_stretched")
 
-    def contract_contrast(self):
-        # r1 < s1 & r2 > s2
-        r1 = 30
-        r2 = 240
-        s1 = 50
-        s2 = 200
+    # r1 < s1 & r2 > s2
+    def contract_contrast(self, percent: int) -> None:
+        r1, r2, s1, s2 = self._get_r_s(percent, "contract")
 
         for row in range(len(self.matrix)):
             for col in range(len(self.matrix[0])):
@@ -125,10 +137,10 @@ def main():
     ie = ImageEnhancement(images[2], ImageType.GRAYSCALE)
     # ie.image_negative()
     # ie.image_negative()
-    # ie.stretch_contrast()
-    # ie.contract_contrast()
+    ie.stretch_contrast(20)
+    # ie.contract_contrast(20)
     # ie.save_img()
-    # ie.show()
+    ie.show()
 
 
 if __name__ == "__main__":
