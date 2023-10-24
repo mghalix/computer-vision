@@ -37,7 +37,7 @@ class Connectivity:
         # x, y = 3, 3
         row_length, col_length = self.matrix.shape
         label = 1
-        neighbors = []
+        neighbors = {}
 
         for row in range(row_length):
             for col in range(col_length):
@@ -49,7 +49,6 @@ class Connectivity:
                 if row == 0 and col == 0:  # top-left corner
                     # (x+1, y)
                     neighbors[f"lbl{label}"] = [pixel]
-                    ...
 
                 # elif row == 0 and col == col_length - 1:  # top-right corner
                 #     # (x-1, y)
@@ -57,8 +56,8 @@ class Connectivity:
 
                 elif row == 0:
                     # (x-1, y)
-                    if self.matrix[row, col-1] in neighbors[f"lbl{label}"];
-                        neighbors[f"lbl{label}"].append(pixel)
+                    if self.matrix[row, col - 1] in self.connectivity_set:
+                        neighbors[f"lbl{label}"] += [pixel]
                     else:
                         label += 1
                         neighbors[f"lbl{label}"] = [pixel]
@@ -72,7 +71,6 @@ class Connectivity:
                 ):  # bottom-right corner
                     # (x-1, y) & (x, y-1)
                     ...
-
 
                     ...
 
@@ -88,21 +86,32 @@ class Connectivity:
                     # (x-1, y) & (x, y-1)
                     ...
 
+                else:
+                    label += 1
+                    neighbors[f"lbl{label}"] = [pixel]
+
+        return neighbors
+
     def n8(self):
         return self.n4() + self.nd()
 
 
-img = np.array(
-    [
-        [0, 0, 200, 200, 0, 0],
-        [0, 200, 200, 201, 0, 0],
-        [0, 0, 0, 199, 199, 0],
-        [199, 200, 200, 198, 199, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 199, 199, 200],
-        [0, 0, 0, 201, 201, 199],
-    ]
-)
-connectivity_set = np.array([198, 199, 200, 201])
+def main():
+    img = np.array(
+        [
+            [0, 0, 200, 200, 0, 0],
+            [0, 200, 200, 201, 0, 0],
+            [0, 0, 0, 199, 199, 0],
+            [199, 200, 200, 198, 199, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 199, 199, 200],
+            [0, 0, 0, 201, 201, 199],
+        ]
+    )
+    connectivity_set = np.array([198, 199, 200, 201])
 
-Connectivity(img, connectivity_set).n4()
+    print(Connectivity(img, connectivity_set).n4())
+
+
+if __name__ == "__main__":
+    main()
