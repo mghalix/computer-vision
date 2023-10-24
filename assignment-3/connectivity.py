@@ -8,36 +8,85 @@ class Pixel:
 
 
 class Connectivity:
-    def __init__(self, matrix: np.array, connectivity_set: np.array) -> None:
+    def __init__(self, matrix: np.ndarray, connectivity_set: np.ndarray) -> None:
         self.matrix = matrix
         self.connectivity_set = connectivity_set
 
-    def nd(self, i, j):
-        if i == 0:
-            pass
+    def nd(self):
+        # if i == 0:
+        #     pass
 
-        if j == 0:
-            pass
+        # if j == 0:
+        #     pass
 
-        if j == self.matrix.shape[1] - 1:
-            pass
+        # if j == self.matrix.shape[1] - 1:
+        #     pass
 
-        if i == self.matrix.shape[0] - 1:
-            pass
+        # if i == self.matrix.shape[0] - 1:
+        #     pass
 
-        neighbors = [
-            (x - 1, y - 1),
-            (x - 1, y + 1),
-            (x + 1, y + 1),
-            (x + 1, y - 1),
-        ]
+        # neighbors = [
+        #     (x - 1, y - 1),
+        #     (x - 1, y + 1),
+        #     (x + 1, y + 1),
+        #     (x + 1, y - 1),
+        # ]
+        return np.ndarray([])
 
     def n4(self):
         # x, y = 3, 3
-        for row in range(self.matrix.shape[0]):
-            for col in range(self.matrix.shape[1]):
-                if self.matrix[row, col] == 1
-                neighbors = []
+        row_length, col_length = self.matrix.shape
+        label = 1
+        neighbors = []
+
+        for row in range(row_length):
+            for col in range(col_length):
+                pixel = self.matrix[row, col]
+
+                if pixel not in self.connectivity_set:
+                    continue
+
+                if row == 0 and col == 0:  # top-left corner
+                    # (x+1, y)
+                    neighbors[f"lbl{label}"] = [pixel]
+                    ...
+
+                # elif row == 0 and col == col_length - 1:  # top-right corner
+                #     # (x-1, y)
+                #     ...
+
+                elif row == 0:
+                    # (x-1, y)
+                    if self.matrix[row, col-1] in neighbors[f"lbl{label}"];
+                        neighbors[f"lbl{label}"].append(pixel)
+                    else:
+                        label += 1
+                        neighbors[f"lbl{label}"] = [pixel]
+
+                elif row == row_length - 1 and col == 0:  # bottom-left corner
+                    # (x+1, y) & (x, y-1)
+                    ...
+
+                elif (
+                    row == row_length - 1 and col == col_length - 1
+                ):  # bottom-right corner
+                    # (x-1, y) & (x, y-1)
+                    ...
+
+
+                    ...
+
+                elif row == row_length - 1:
+                    # (x+1, y) & (x-1, y) & (x, y-1)
+                    ...
+
+                elif col == 0:
+                    # (x+1, y) & (x, y-1)
+                    ...
+
+                elif col == col_length - 1:
+                    # (x-1, y) & (x, y-1)
+                    ...
 
     def n8(self):
         return self.n4() + self.nd()

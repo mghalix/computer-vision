@@ -12,6 +12,11 @@ class ImageEnhancement:
         self.filters = []
 
     def get_levels(self) -> int:
+        """returns the range of levels in an image, e.g. 0 -> 255
+
+        Return: 256
+        """
+
         return self.image.max() + 1  # from 0 to 255 so 256 levels
 
     def filters_applied(self) -> int:
@@ -85,7 +90,7 @@ class ImageEnhancement:
                     self.matrix[row][col] = curr * m + s1 - r1 * m
 
                 else:
-                    L = np.max(self.matrix) + 1  # 256
+                    L = self.get_levels()  # 256
                     m = ((L - 1) - s2) / ((L - 1) - r2)
                     self.matrix[row][col] = (
                         curr * m + (L - 1) - (L - 1) * (L - s2) / (L - r2)
@@ -127,7 +132,6 @@ class ImageEnhancement:
     def reset(self) -> None:
         """Resets the image back to the original
 
-        Keyword arguments:
         Return: None
         """
         self.matrix = np.array(self.image)
