@@ -8,6 +8,7 @@ images = [
     "./images/dog.jpg",
     "./images/monalisa.jpg",
     "./images/eagle.jpg",
+    "./images/coins.webp",
 ]
 
 
@@ -21,7 +22,6 @@ class Utils:
     @classmethod
     def extract_file_name(cls, path: str) -> str:
         return path.split("/")[-1].split(".")[0]
-        # return os.path.basename(path).split(".")[0]
 
     @classmethod
     def get_absolute_path(cls, path: str) -> str:

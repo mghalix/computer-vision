@@ -1,11 +1,14 @@
 import cv2
 import numpy as np
-from utils import ImageType, images, Utils as uti
+from .utils import Utils as uti, ImageType, path_exist, log
 
 
 class ImageEnhancement:
     def __init__(self, img_path: str, open_type=ImageType.GRAYSCALE) -> None:
-        self.img_path = img_path
+        self.img_path = uti.get_absolute_path(img_path)
+        if not path_exist(img_path):
+            raise FileNotFoundError(f"File {img_path} does not exist")
+
         self.open_type = open_type
         self.image = cv2.imread(img_path, open_type.value)
         self.matrix = np.array(self.image)
@@ -29,7 +32,6 @@ class ImageEnhancement:
         return len(self.filters)
 
     # A great use for this is the airport's baggage check-in conveyor which sees
-    # inside of the bag is dark so it's better if we invert those to focus on the items
     def image_negative(self) -> None:
         L = self.get_levels()
         for row in range(len(self.matrix)):
@@ -113,7 +115,7 @@ class ImageEnhancement:
                     self.matrix[row][col] = curr * m + s1 - r1 * m
 
                 else:
-                    L = np.max(self.matrix) + 1  # 256
+                    L = self.get_levels()
                     m = ((L - 1) - s2) / ((L - 1) - r2)
                     self.matrix[row][col] = (
                         curr * m + (L - 1) - (L - 1) * (L - s2) / (L - r2)
@@ -122,12 +124,20 @@ class ImageEnhancement:
         self.filters.append("contrast_contracted")
 
     def save_img(self) -> None:
-        out = f"./filtered/{uti.extract_file_name(self.img_path)}"
+        basename, extension = uti.get_basename_extension(self.img_path)
+        basename = uti.extract_file_name(basename)
+        EXPORT_DIR = uti.get_absolute_path("res/filtered/")
 
-        for i in range(self.filters_applied()):
-            out += "_" + self.filters[i]
+        uti.create_folder(EXPORT_DIR)
 
-        cv2.imwrite(f"{out}.png", self.matrix)
+        for filter in self.filters:
+            basename += "_" + filter
+
+        img_path = EXPORT_DIR + basename + extension
+        print(
+            f"Saving image {img_path.split('/')[-1].split('.')[0]} to -> {EXPORT_DIR} 💾 ..."
+        )
+        cv2.imwrite(img_path, self.matrix)
 
     def reset(self) -> None:
         """Resets the image back to the original
@@ -135,21 +145,3 @@ class ImageEnhancement:
         Return: None
         """
         self.matrix = np.array(self.image)
-
-
-def main():
-    ie = ImageEnhancement(images[2], ImageType.GRAYSCALE)
-    ie.image_negative()
-    # ie.image_negative()
-    # ie.stretch_contrast(20)
-    # ie.contract_contrast(20)
-
-    # ie.image_negative()
-    # ie.image_negative()
-    # ie.image_negative()
-    # ie.save_img()
-    ie.show()
-
-
-if __name__ == "__main__":
-    main()
