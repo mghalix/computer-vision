@@ -1,0 +1,7 @@
+.vscode/
+*/.vsocde/
+*/.vsocde/*
+.code-workspace/
+.code-workspace/*
+*/.code-workspace/
+*/.code-workspace/*

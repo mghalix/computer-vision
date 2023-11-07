@@ -1,7 +1,9 @@
-import numpy as np
 from math import sqrt
-import matplotlib.pyplot as plt
+
 import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
 from utils import *
 
 
@@ -62,14 +64,14 @@ class ImageStatistics:
 
         hist = cv2.calcHist([self.img], [0], None, [256], [0, 256])
         plt.figure()
-        plt.title("Grayscale Histogram")
-        plt.xlabel("Pixel Value")
-        plt.ylabel("Frequency")
-        plt.plot(hist, color="black")
-        plt.xlim([0, 256])
-        hist_path = f"./plots/{Utils.extract_file_name(self.img_path)}_hist.png"
-        plt.savefig(hist_path, format="png")
-        print(f"Histogram figured saved successfully to {hist_path}")
+        # plt.title("Grayscale Histogram")
+        # plt.xlabel("Pixel Value")
+        # plt.ylabel("Frequency")
+        # plt.plot(hist, color="black")
+        # plt.xlim([0, 256])
+        # hist_path = f"./plots/{Utils.extract_file_name(self.img_path)}_hist.png"
+        # plt.savefig(hist_path, format="png")
+        # print(f"Histogram figured saved successfully to {hist_path}")
 
 
 def main():

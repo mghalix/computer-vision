@@ -149,7 +149,7 @@ class ImageEnhancement:
 
 def main():
     ie = ImageEnhancement(images[4], ImageType.GRAYSCALE)
-    # ie.image_negative()
+    ie.image_negative()
     # ie.stretch_contrast(20)
     # ie.contract_contrast(20)
     # ie.save_img()
