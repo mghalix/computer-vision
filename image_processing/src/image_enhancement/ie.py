@@ -6,11 +6,11 @@ from typing import Any
 import cv2
 import numpy as np
 
-from src.utils.image_utils import ImageUtils as uti
+from src.utils.files.file_utils import FileUtils as uti
 
-from .filters import Filter
 from ..image_props.image import Image
 from ..image_props.image_stats import ImageStatistics as stats
+from .filters.filters import Filter
 
 log = logging.getLogger(__name__)
 

@@ -5,7 +5,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 from src.image_props.image import Image
-from src.utils.image_utils import ImageUtils as uti
+from src.utils.files.file_utils import FileUtils as uti
 
 log = logging.getLogger(__name__)
 

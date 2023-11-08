@@ -3,7 +3,7 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
-from src.utils.image_utils import ImageUtils as iuti
+from src.utils.files.file_utils import FileUtils as iuti
 
 
 class Image:

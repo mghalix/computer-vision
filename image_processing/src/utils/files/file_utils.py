@@ -7,7 +7,7 @@ from screeninfo import get_monitors
 log = logging.getLogger(__name__)
 
 
-class ImageUtils:
+class FileUtils:
     class ImageType(Enum):
         GRAYSCALE = 0
         UNCHANGED = -1
@@ -42,12 +42,12 @@ class ImageUtils:
     @staticmethod
     def get_basename_extension(path: str) -> tuple[str, str]:
         basename, extension = os.path.splitext(path)
-        basename = ImageUtils.extract_file_name(basename)
+        basename = FileUtils.extract_file_name(basename)
         return (basename, extension)
 
     @staticmethod
     def create_folder(path: str) -> str:
-        if ImageUtils.check_path_exists(path):
+        if FileUtils.check_path_exists(path):
             log.debug(f"Directory {path} already exists.")
             return path
 
@@ -65,5 +65,5 @@ class ImageUtils:
 
     @staticmethod
     def image_title(name) -> str:
-        basename, _ = ImageUtils.get_basename_extension(name)
+        basename, _ = FileUtils.get_basename_extension(name)
         return " ".join(basename.split("_")).title()

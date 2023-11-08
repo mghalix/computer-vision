@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 import pytest
 
-from src.image_enhancement.filters import Filter
+from src.image_enhancement.filters.filters import Filter
 from src.image_enhancement.ie import ImageEnhancement
 from src.image_props.image import Image
-from src.utils.image_utils import ImageUtils as uti
+from src.utils.files.file_utils import FileUtils as uti
 
 
 @pytest.mark.parametrize("img_path", uti.sample_images.values())
